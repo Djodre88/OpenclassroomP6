@@ -40,12 +40,23 @@ function addBestMovie(json){
 function addMovies(listFilms, category, id){
     console.log("Plusieurs films de la catégorie " + `${category}` +" vont être ajoutés");
     let div = document.createElement('div');
-    div.innerHTML = "<h2> " + category +  " </h2>";
-    div.innerHTML += "<span>&#139"+";</span>";
-    div.innerHTML += "<span>&#155"+";</span>";
+    div.innerHTML = "<h2> " + `${category}` +  " </h2>";
     div.setAttribute('id', id);
     let section = document.createElement('section');
-    section.setAttribute('id', 'container');
+    section.setAttribute('id', `${id}`+'-container');
+    let rightSpan = document.createElement('span');
+    rightSpan.setAttribute('id', `${id}`+'left-span');
+    rightSpan.setAttribute('onclick', 'moveCarousel(this.id)');
+    rightSpan.innerText = '<';
+    let leftSpan = document.createElement('span');
+    leftSpan.setAttribute('id', `${id}`+'-right-span');
+    // leftSpan.setAttribute('onclick', 'toLeft()');
+    leftSpan.setAttribute('onclick', 'moveCarousel(this.id)');
+    leftSpan.innerText = '>';
+
+    // section.innerHTML = "<span onclick='toRight()'>&#139"+";</span>";
+    // section.innerHTML += "<span onclick='toLeft()'>&#155"+";</span>";
+    
 
     document.body.append(div);
     console.log(listFilms)
@@ -58,6 +69,8 @@ function addMovies(listFilms, category, id){
         img.setAttribute('class', 'movie-img');
         img.src = film.image_url;
         section.appendChild(img);
+        section.append(rightSpan);
+        section.append(leftSpan);
         div.append(section);
     }
 }
@@ -104,6 +117,37 @@ async function fetchDatas(nbOfMoviesToAdd, totalPages, filter){
     return allMovies;
 }
 
+// Gestion du carrousel
+// ====================
+function moveCarousel(clicked_id){
+    var img = document.getElementsByClassName('movie-img');
+    console.log(clicked_id);
+    // var img = document.getElementsById(clicked_id);
+    if(clicked_id.indexOf('right')>-1){
+        l++;
+        for(var i of img){
+            console.log(l);
+            if (l==0) {i.style.left = "0px";}
+            if (l==1) {i.style.left = "-25%";}
+            if (l==2) {i.style.left = "-50%";}
+            if (l==3) {i.style.left = "-75%";}
+            if (l>3) {l=3;}
+        }
+    }
+    if(clicked_id.indexOf('left')>-1){
+        l--;
+        for(var i of img){        
+            console.log(l);
+            if (l==0) {i.style.left = "0px";}
+            if (l==1) {i.style.left = "-25%";}
+            if (l==2) {i.style.left = "-50%";}
+            if (l==3) {i.style.left = "-75%";}
+            if (l<0) {l=0;}
+        }
+    }
+}
+
+
 // Création de la modale
 // =====================
 async function openModal(json){
@@ -138,6 +182,7 @@ async function openModal(json){
 // Main
 // ====
 let numberPages = totalPages(nbMovieToAdd);
+var l = 0;
 
 fetch("http://localhost:8000/api/v1/titles/?sort_by=-imdb_score")    
     .then(reponse => reponse.json())
