@@ -53,6 +53,7 @@ function addMovies(listFilms, category, id){
         let filmId = film.id;
         img.setAttribute('id', filmId);
         img.setAttribute('onClick', "reply_click(this.id)");
+        img.setAttribute('class', 'movie-img');
         img.src = film.image_url;
         newDiv.appendChild(img);
         reponse.append(newDiv);

@@ -33,12 +33,13 @@ h2
     justify-content: space-around;
 }
 
-#element-in-container
+
+img
 {
     width: 14%;
     height: 14%;
 }
-    #element-in-container:hover{
+    img:hover{
         width: 16%;
         height: 16%;
         cursor: pointer;
