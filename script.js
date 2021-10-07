@@ -53,9 +53,6 @@ function addMovies(listFilms, category, id){
     // leftSpan.setAttribute('onclick', 'toLeft()');
     leftSpan.setAttribute('onclick', 'moveCarousel(this.id)');
     leftSpan.innerText = '>';
-
-    // section.innerHTML = "<span onclick='toRight()'>&#139"+";</span>";
-    // section.innerHTML += "<span onclick='toLeft()'>&#155"+";</span>";
     
 
     document.body.append(div);
