@@ -1,49 +1,70 @@
-body {
+body{
     background-image: linear-gradient(to right, #566573 10%, black 60%);
   }
-header
-{
-    color: #FFF;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    font-size: 3em;
-    /* background-color: linear-gradient(to right, #566573 10%, black 60%); */
-    background-color: black;
-    border-top: 15px solid #000000;
-    border-bottom: 15px solid #000000;
-    border-left: 15px solid black;
-    text-shadow: 0 0 5px rgba(0, 0, 0, 0.116), 0 0 10px rgba(255, 255, 255, 0.507), 0 0 15px rgba(255, 255, 255, 0.486), 0 0 20px #fff018, 0 0 30px #fff018, 0 0 40px #fff018, 0 0 55px #ff3b18, 0 0 75px #ff1818
+header{
+  color: #FFF;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 3em;
+  /* background-color: linear-gradient(to right, #566573 10%, black 60%); */
+  background-color: black;
+  border-top: 15px solid #000000;
+  border-bottom: 15px solid #000000;
+  border-left: 15px solid black;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.116), 0 0 10px rgba(255, 255, 255, 0.507), 0 0 15px rgba(255, 255, 255, 0.486), 0 0 20px #fff018, 0 0 30px #fff018, 0 0 40px #fff018, 0 0 55px #ff3b18, 0 0 75px #ff1818
 }
 
-h2
-{
-    color : rgb(255, 255, 255);
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+h2{
+  color : rgb(255, 255, 255);
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+#best-movie-image{
+  width: 35%;
+  height:35%;
+}
+span{
+  position: absolute;
+  padding-top: 12%;
+  font-size: 60px;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+  left: .5%;
+  z-index: 1;
+}
+span:nth-of-type(2){
+  left: 98%;
+  text-align: right;
 }
 
-#best-movie-image
-{
-    width: 35%;
-    height:35%;
+section{
+  display: flex;
+  /* flex-wrap: wrap; */
+  justify-content: left;
+  width: 98%;
+  height: 200px;
+  margin: 10px auto;
+  overflow-x: auto;
+}
+section::-webkit-scrollbar{
+  visibility: hidden;
 }
 
-#container
-{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
+img{
+  /* width: 14%;
+  height: 14%; */
+  min-width: 25%;
+  min-height: 90%;
+  position: relative;
+  left: 0;
+  padding-top: 15px;
+  transition: 1.5s;
+  
 }
-
-
-img
-{
-    width: 14%;
-    height: 14%;
-}
-    img:hover{
+    /* img:hover{
         width: 16%;
         height: 16%;
         cursor: pointer;
-    }
+    } */
 
 
 #button1

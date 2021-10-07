@@ -39,13 +39,15 @@ function addBestMovie(json){
 // =============================
 function addMovies(listFilms, category, id){
     console.log("Plusieurs films de la catégorie " + `${category}` +" vont être ajoutés");
-    let reponse = document.createElement('div');
-    reponse.innerHTML = "<h2> " + category +  " </h2>";
-    reponse.setAttribute('id', id);
-    let newDiv = document.createElement('div');
-    newDiv.setAttribute('id', 'container');
+    let div = document.createElement('div');
+    div.innerHTML = "<h2> " + category +  " </h2>";
+    div.innerHTML += "<span>&#139"+";</span>";
+    div.innerHTML += "<span>&#155"+";</span>";
+    div.setAttribute('id', id);
+    let section = document.createElement('section');
+    section.setAttribute('id', 'container');
 
-    document.body.append(reponse);
+    document.body.append(div);
     console.log(listFilms)
     
     for (let film of listFilms){
@@ -55,8 +57,8 @@ function addMovies(listFilms, category, id){
         img.setAttribute('onClick', "reply_click(this.id)");
         img.setAttribute('class', 'movie-img');
         img.src = film.image_url;
-        newDiv.appendChild(img);
-        reponse.append(newDiv);
+        section.appendChild(img);
+        div.append(section);
     }
 }
 
@@ -152,7 +154,7 @@ for (let filter of filters){
 // ====================
 let modal = document.getElementById('myModal');
 let button = document.getElementById("button1");
-let span = document.getElementsByClassName("close")[0];
+let closeButton = document.getElementsByClassName("close")[0];
 let inModal = document.getElementsByClassName('modal-body')[0];
 
 // Gestion du clic sur le bouton
@@ -175,6 +177,6 @@ async function reply_click(clicked_id)
     await openModal(reponse2);
 }
 
-span.onclick = function() {
+closeButton.onclick = function() {
     modal.style.display = "none";
   }
