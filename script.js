@@ -45,7 +45,7 @@ function addMovies(listFilms, category, id){
     let section = document.createElement('section');
     section.setAttribute('id', `${id}`+'-container');
     let rightSpan = document.createElement('span');
-    rightSpan.setAttribute('id', `${id}`+'left-span');
+    rightSpan.setAttribute('id', `${id}`+'-left_-span');
     rightSpan.setAttribute('onclick', 'moveCarousel(this.id)');
     rightSpan.innerText = '<';
     let leftSpan = document.createElement('span');
@@ -63,7 +63,9 @@ function addMovies(listFilms, category, id){
         let filmId = film.id;
         img.setAttribute('id', filmId);
         img.setAttribute('onClick', "reply_click(this.id)");
-        img.setAttribute('class', 'movie-img');
+        img.setAttribute('class', `${id}`+'-img');
+        // img.setAttribute('class', `${id}`+'-img')
+        
         img.src = film.image_url;
         section.appendChild(img);
         section.append(rightSpan);
@@ -117,8 +119,12 @@ async function fetchDatas(nbOfMoviesToAdd, totalPages, filter){
 // Gestion du carrousel
 // ====================
 function moveCarousel(clicked_id){
-    var img = document.getElementsByClassName('movie-img');
-    console.log(clicked_id);
+    let spanIndex = clicked_id.indexOf('-span');
+    let tag = clicked_id.substr(0,spanIndex-6);
+    console.log(tag);
+    var img = document.getElementsByClassName(`${tag}`+'-img');
+    
+    // console.log(img);
     // var img = document.getElementsById(clicked_id);
     if(clicked_id.indexOf('right')>-1){
         l++;
@@ -201,7 +207,7 @@ let inModal = document.getElementsByClassName('modal-body')[0];
 
 // Gestion du clic sur le bouton
 // =============================
-button.onclick = async function() {
+button.onclick = async function(){
     modal.style.display = "block";
     let reponse3 = await fetch("http://localhost:8000/api/v1/titles/1508669");
     let reponse4 = await reponse3.json();
@@ -210,8 +216,7 @@ button.onclick = async function() {
 
 // Gestion du clic sur les affiches
 // ================================
-async function reply_click(clicked_id)
-{
+async function reply_click(clicked_id){
     modal.style.display = "block";
     let movieUrl = `${baseURL}` + clicked_id;
     let reponse = await fetch(movieUrl);
@@ -219,6 +224,6 @@ async function reply_click(clicked_id)
     await openModal(reponse2);
 }
 
-closeButton.onclick = function() {
+closeButton.onclick = function(){
     modal.style.display = "none";
   }
