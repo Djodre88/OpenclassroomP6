@@ -46,12 +46,12 @@ function addMovies(listFilms, category, id){
     section.setAttribute('id', `${id}`+'-container');
     let rightSpan = document.createElement('span');
     rightSpan.setAttribute('id', `${id}`+'-left_-span');
-    rightSpan.setAttribute('onclick', 'moveCarousel(this.id)');
+    rightSpan.setAttribute('onclick', 'moveCarousel(this.id, cpt, moviesIds)');
     rightSpan.innerText = '<';
     let leftSpan = document.createElement('span');
     leftSpan.setAttribute('id', `${id}`+'-right-span');
     // leftSpan.setAttribute('onclick', 'toLeft()');
-    leftSpan.setAttribute('onclick', 'moveCarousel(this.id)');
+    leftSpan.setAttribute('onclick', 'moveCarousel(this.id, cpt, moviesIds)');
     leftSpan.innerText = '>';
     
 
@@ -118,36 +118,32 @@ async function fetchDatas(nbOfMoviesToAdd, totalPages, filter){
 
 // Gestion du carrousel
 // ====================
-function moveCarousel(clicked_id){
+function moveCarousel(clicked_id, cpt, moviesIds){
     let spanIndex = clicked_id.indexOf('-span');
     let tag = clicked_id.substr(0,spanIndex-6);
-    console.log(tag);
-    var img = document.getElementsByClassName(`${tag}`+'-img');
+    // console.log(tag);
+    var img = document.getElementsByClassName(`${tag}`+'-img'); // On récupère les images du carrousel sélectionné en fonction du tag
+    var ind = moviesIds.indexOf(tag);
+    console.log(i);
+    console.log(cpt);
+    var l = cpt[ind];
     
-    // console.log(img);
-    // var img = document.getElementsById(clicked_id);
     if(clicked_id.indexOf('right')>-1){
-        l++;
-        for(var i of img){
-            console.log(l);
-            if (l==0) {i.style.left = "0px";}
-            if (l==1) {i.style.left = "-25%";}
-            if (l==2) {i.style.left = "-50%";}
-            if (l==3) {i.style.left = "-75%";}
-            if (l>3) {l=3;}
-        }
+        l++;     
     }
-    if(clicked_id.indexOf('left')>-1){
+    else if (clicked_id.indexOf('left')>-1){
         l--;
-        for(var i of img){        
-            console.log(l);
-            if (l==0) {i.style.left = "0px";}
-            if (l==1) {i.style.left = "-25%";}
-            if (l==2) {i.style.left = "-50%";}
-            if (l==3) {i.style.left = "-75%";}
-            if (l<0) {l=0;}
-        }
     }
+    for(var i of img){        
+        console.log(l);
+        if (l==0) {i.style.left = "0px";}
+        if (l==1) {i.style.left = "-25%";}
+        if (l==2) {i.style.left = "-50%";}
+        if (l==3) {i.style.left = "-75%";}
+        if (l>3) {l=3;}
+        if (l<0) {l=0;}
+    }    
+    cpt.splice(ind,1,l);
 }
 
 
@@ -185,7 +181,9 @@ async function openModal(json){
 // Main
 // ====
 let numberPages = totalPages(nbMovieToAdd);
-var l = 0;
+var cpt = [];
+var moviesIds = [];
+
 
 fetch("http://localhost:8000/api/v1/titles/?sort_by=-imdb_score")    
     .then(reponse => reponse.json())
@@ -195,9 +193,12 @@ for (let filter of filters){
     fetchDatas(nbMovieToAdd, numberPages, filter[0])
     .then(function(films){
         addMovies(films, filter[1], filter[2]);
-    });
+    })
+    cpt.push(0);
+    moviesIds.push(filter[2]);  // On range les tags dans un array
 }
-
+console.log(cpt);
+console.log(moviesIds);
 // Gestion de la modale
 // ====================
 let modal = document.getElementById('myModal');
