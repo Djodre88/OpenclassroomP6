@@ -11,7 +11,7 @@ const baseURL = "http://localhost:8000/api/v1/titles/";
 
 // Nombre de films dans chaque catégorie
 // =====================================
-let nbMovieToAdd = 10;
+let nbMovieToAdd = 7;
 // var l0 = 0; //Variable repère utilisée dans la fonction moveCarrousel
 
 // Calcul du nombre de pages qu'il va falloir explorer en fonction du nombre de films à ajouter
