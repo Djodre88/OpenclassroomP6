@@ -11,14 +11,15 @@ const baseURL = "http://localhost:8000/api/v1/titles/";
 
 // Nombre de films dans chaque catégorie
 // =====================================
-let nbMovieToAdd = 7;
+let nbMovieToAdd = 10;
 // var l0 = 0; //Variable repère utilisée dans la fonction moveCarrousel
 
 // Calcul du nombre de pages qu'il va falloir explorer en fonction du nombre de films à ajouter
 // ==============================================================================================
 function totalPages(totalMovies){
     const numberPerPages = 5;
-    let totalPages = 1 + (totalMovies - totalMovies % numberPerPages)/numberPerPages;
+    // let totalPages = 1 + (totalMovies - totalMovies % numberPerPages)/numberPerPages;
+    let totalPages = Math.ceil(totalMovies/numberPerPages);
     return totalPages
 } 
 
@@ -149,7 +150,7 @@ function moveCarousel(clicked_id, cpt, containersIds){
     for(var i of imgArray){        
         console.log(l);
         if (l==0) {i.style.left = "0px";}
-        else if (l>3) {l=0;i.style.left = "0px";}
+        else if (l>(nbMovieToAdd-4)) {l=0;i.style.left = "0px";}
         else if (l<0) {l=3;i.style.left = `${l*(-25)}`+'%';}
         else{i.style.left = `${l*(-25)}`+'%';}
     }    
