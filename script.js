@@ -12,6 +12,7 @@ const baseURL = "http://localhost:8000/api/v1/titles/";
 // Nombre de films dans chaque catégorie
 // =====================================
 let nbMovieToAdd = 7;
+// var l0 = 0; //Variable repère utilisée dans la fonction moveCarrousel
 
 // Calcul du nombre de pages qu'il va falloir explorer en fonction du nombre de films à ajouter
 // ==============================================================================================
@@ -46,13 +47,14 @@ function addMovies(listFilms, category, id){
     section.setAttribute('id', `${id}`+'-container');
     let rightSpan = document.createElement('span');
     rightSpan.setAttribute('id', `${id}`+'-left_-span');
-    rightSpan.setAttribute('onclick', 'moveCarousel(this.id, cpt, moviesIds)');
-    rightSpan.innerText = '<';
+    rightSpan.setAttribute('onclick', 'moveCarousel(this.id, cpt, containersIds)');
+    rightSpan.innerText = '‹';
     let leftSpan = document.createElement('span');
     leftSpan.setAttribute('id', `${id}`+'-right-span');
-    // leftSpan.setAttribute('onclick', 'toLeft()');
-    leftSpan.setAttribute('onclick', 'moveCarousel(this.id, cpt, moviesIds)');
-    leftSpan.innerText = '>';
+    leftSpan.setAttribute('onclick', 'moveCarousel(this.id, cpt, containersIds)');
+    leftSpan.innerText = '›';
+    div.append(rightSpan);
+    div.append(leftSpan);
     
 
     document.body.append(div);
@@ -64,12 +66,9 @@ function addMovies(listFilms, category, id){
         img.setAttribute('id', filmId);
         img.setAttribute('onClick', "reply_click(this.id)");
         img.setAttribute('class', `${id}`+'-img');
-        // img.setAttribute('class', `${id}`+'-img')
         
         img.src = film.image_url;
         section.appendChild(img);
-        section.append(rightSpan);
-        section.append(leftSpan);
         div.append(section);
     }
 }
@@ -118,30 +117,43 @@ async function fetchDatas(nbOfMoviesToAdd, totalPages, filter){
 
 // Gestion du carrousel
 // ====================
-function moveCarousel(clicked_id, cpt, moviesIds){
+
+function moveCarousel(clicked_id, cpt, containersIds){
     let spanIndex = clicked_id.indexOf('-span');
     let tag = clicked_id.substr(0,spanIndex-6);
-    // console.log(tag);
-    var img = document.getElementsByClassName(`${tag}`+'-img'); // On récupère les images du carrousel sélectionné en fonction du tag
-    var ind = moviesIds.indexOf(tag);
-    console.log(i);
+    var imgListInitial = document.getElementsByClassName(`${tag}`+'-img'); // On récupère les images du carrousel sélectionné en fonction du tag
+    var imgArray= Array.prototype.slice.call(imgListInitial);
+    var ind = containersIds.indexOf(tag);
     console.log(cpt);
     var l = cpt[ind];
+    console.log(l);
+    // var last = imgArray.length - 1;
     
     if(clicked_id.indexOf('right')>-1){
-        l++;     
+        l++;
     }
     else if (clicked_id.indexOf('left')>-1){
         l--;
     }
-    for(var i of img){        
+    // if(l>l0){
+    //     imgArray.push(imgArray[0]);
+    //     for(i of imgArray){i.style.left = `${l*(-25)}`+'%';}
+    //     imgArray.shift();
+    //     l0=l;
+    // }
+    // else if(l<l0){
+    //     imgArray.unshift(imgArray[last]);
+    //     for(i of imgArray){i.style.left = `${l*(-25)}`+'%';}
+    //     imgArray.pop();
+    //     l0=l;
+    // }
+
+    for(var i of imgArray){        
         console.log(l);
         if (l==0) {i.style.left = "0px";}
-        if (l==1) {i.style.left = "-25%";}
-        if (l==2) {i.style.left = "-50%";}
-        if (l==3) {i.style.left = "-75%";}
-        if (l>3) {l=3;}
-        if (l<0) {l=0;}
+        else if (l>3) {l=0;i.style.left = "0px";}
+        else if (l<0) {l=3;i.style.left = `${l*(-25)}`+'%';}
+        else{i.style.left = `${l*(-25)}`+'%';}
     }    
     cpt.splice(ind,1,l);
 }
@@ -182,7 +194,7 @@ async function openModal(json){
 // ====
 let numberPages = totalPages(nbMovieToAdd);
 var cpt = [];
-var moviesIds = [];
+var containersIds = [];
 
 
 fetch("http://localhost:8000/api/v1/titles/?sort_by=-imdb_score")    
@@ -195,10 +207,9 @@ for (let filter of filters){
         addMovies(films, filter[1], filter[2]);
     })
     cpt.push(0);
-    moviesIds.push(filter[2]);  // On range les tags dans un array
+    containersIds.push(filter[2]);  // On range les tags dans un array
 }
-console.log(cpt);
-console.log(moviesIds);
+
 // Gestion de la modale
 // ====================
 let modal = document.getElementById('myModal');
@@ -227,4 +238,4 @@ async function reply_click(clicked_id){
 
 closeButton.onclick = function(){
     modal.style.display = "none";
-  }
+}
