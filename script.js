@@ -54,9 +54,7 @@ function addMovies(listFilms, category, id){
     leftSpan.setAttribute('onclick', 'moveCarousel(this.id, cpt, containersIds)');
     leftSpan.innerText = '›';
     div.append(rightSpan);
-    div.append(leftSpan);
-    
-
+    div.append(leftSpan); 
     document.body.append(div);
     console.log(listFilms)
     
